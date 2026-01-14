@@ -54,9 +54,12 @@ python token_counter.py
 | `tokenizer_type` | string | 否 | 分词器类型 | `tiktoken` |
 
 **支持的分词器类型 (`tokenizer_type`)**:
-- `tiktoken` (默认)
-- `deepseek3.1`
-- `gpt-oss-120b`
+
+| 选项值 | 描述 | 适用模型及备注 |
+| :--- | :--- | :--- |
+| `tiktoken` | OpenAI cl100k_base 编码 | GPT-3.5, GPT-4 等 OpenAI 模型 (默认) |
+| `deepseek3.1` | DeepSeek 分词器 | DeepSeek系列模型，需确保 `deepseek/tokenizer.json` 存在 |
+| `gpt-oss-120b` | GPT-OSS-120B 分词器 | GPT-OSS-120B 模型，需确保 `gpt-oss-120b/tokenizer.json` 存在 |
 
 **请求示例**:
 
