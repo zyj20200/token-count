@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  token-counter:
+    build: .
+    ports:
+      - "7869:7860"
+    restart: unless-stopped
+    volumes:
+      # Mount current directory to allow access to tokenizer files
+      - .:/app
