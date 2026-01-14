@@ -2,8 +2,8 @@ import gradio as gr
 import tiktoken
 from tokenizers import Tokenizer
 import html
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Body
+from pydantic import BaseModel, Field
 import uvicorn
 
 
@@ -95,12 +95,20 @@ def count_tokens_gpt(text):
 
 # Define Pydantic model
 class TokenRequest(BaseModel):
-    text: str
-    tokenizer_type: str = "tiktoken"
+    text: str = Field(..., description="需要计算 Token 的文本内容", example="你好，世界！")
+    tokenizer_type: str = Field(
+        default="tiktoken", 
+        description="使用的分词器类型。可选值: tiktoken (OpenAI), deepseek3.1, gpt-oss-120b",
+        example="deepseek3.1"
+    )
 
-app = FastAPI()
+app = FastAPI(
+    title="Token 计算服务",
+    description="提供基于多种分词器（DeepSeek, OpenAI, GPT-OSS）的 Token 计算 API。",
+    version="1.0.0"
+)
 
-@app.post("/api/token")
+@app.post("/api/token", summary="计算文本 Token", description="根据指定的文本和分词器类型，计算 Token 数量并返回 Token 列表。")
 def api_count_tokens(request: TokenRequest):
     count = 0
     token_texts = []
